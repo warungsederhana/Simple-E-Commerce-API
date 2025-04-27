@@ -34,3 +34,4 @@ build/
 
 ### docker-volume ###
 /docker-volume
+class-diagram-simple.drawio
