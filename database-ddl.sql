@@ -1,4 +1,4 @@
--- Active: 1745738376046@@127.0.0.1@3306@ecommerce-db
+-- Active: 1745804949913@@127.0.0.1@3306@ecommerce-db
 
 CREATE TABLE users (
     id VARCHAR(255) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('admin', 'user') NOT NULL,
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP,
     updated_at TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE (id, email)
@@ -18,11 +18,11 @@ CREATE TABLE shopping_carts (
     product_id VARCHAR(255) NOT NULL,
     payment_id VARCHAR(255),
     quantity INT NOT NULL,
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP,
     updated_at TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY (payment_id) REFERENCES payments(id),
     UNIQUE (id)
 ) engine=InnoDB;
@@ -33,7 +33,7 @@ CREATE TABLE products (
     description TEXT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP,
     updated_at TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE (id)
@@ -44,7 +44,8 @@ CREATE TABLE payments (
     user_id VARCHAR(255) NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
     status ENUM('pending', 'completed', 'failed') NOT NULL,
-    created_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE (id)

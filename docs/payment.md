@@ -1,10 +1,10 @@
-# Products API Specs
+# Payment API Specs
 
-## Create Products
+## Create Payment
 
-Endpoint: POST `/api/products`
+Endpoint: POST `/api/payment`
 
-Request Header:
+Request Header: 
 
 - Authorization: `Bearer TOKEN (MANDATORY)`
 
@@ -12,27 +12,8 @@ Request Body:
 
 ```json
 {
-  "name": "product name",
-  "description": "product description",
-  "price": 10000,
-  "stock": 100
-}
-```
-
-Response Body(Success):
-
-```json
-{
-  "status": 200,
-  "errors": false,
-  "data": {
-    "id": "UUID",
-    "name": "product name",
-    "description": "product description",
-    "price": 10000,
-    "stock": 100
-  },
-  "message": "Products added successfully"
+  "amount": 1000000,
+  "status": ENUM("pending", "completed", "failed")
 }
 ```
 
@@ -43,13 +24,24 @@ Response Body(Failed):
   "status": 400,
   "errors": true,
   "data": null,
-  "message": "Product name must not blank, Description must not blank, Price must not blank, Stock must not blank",
+  "message": "Amount must not empty"
 }
 ```
 
-## Get Products
+Response Body(Failed):
 
-Endpoint: GET `/api/pruducts`
+```json
+{
+  "status": 401,
+  "errors": true,
+  "data": null,
+  "message": "Unauthorized"
+}
+```
+
+## Get Payment
+
+Endpoint: GET `/api/payment`
 
 Request Header:
 - Authorization: `Bearer TOKEN (MANDATORY)`
@@ -63,20 +55,20 @@ Response Body(Success):
   "data": [
     {
       "id": "UUID",
-      "name": "product name",
-      "description": "product description",
-      "price": 10000,
-      "stock": 100
+      "amount": 1000000,
+      "status": ENUM("pending", "completed", "failed"),
+      "created_at": "DD-MM-YYYY, hh:mm:ss",
+      "updated_at": "DD-MM-YYYY, hh:mm:ss"
     },
     {
       "id": "UUID",
-      "name": "product name",
-      "description": "product description",
-      "price": 10000,
-      "stock": 100
+      "amount": 1000000,
+      "status": ENUM("pending", "completed", "failed"),
+      "created_at": "DD-MM-YYYY, hh:mm:ss",
+      "updated_at": "DD-MM-YYYY, hh:mm:ss"
     }
   ],
-  "message": "Products data retrieved successfully"
+  "message": "Payment data retrieved successfully"
 }
 ```
 
@@ -91,9 +83,9 @@ Response Body(Failed):
 }
 ```
 
-## Get Product
+## Get Paymet
 
-Endpoint: POST `/api/products/{id}`
+Endpoint: POST `/api/payment/{id}`
 
 Request Header:
 
@@ -107,10 +99,10 @@ Response Body(Success):
   "errors": false,
   "data": {
     "id": "UUID",
-    "name": "product name",
-    "description": "product description",
-    "price": 10000,
-    "stock": 100
+    "amount": 1000000,
+    "status": ENUM("pending", "completed", "failed"),
+    "created_at": "DD-MM-YYYY, hh:mm:ss",
+    "updated_at": "DD-MM-YYYY, hh:mm:ss"
   },
   "message": "Login success"
 }
@@ -134,13 +126,13 @@ Response Body(Failed, 404):
   "status": 404,
   "errors": true,
   "data": null,
-  "message": "Product not found"
+  "message": "Payment not found"
 }
 ```
 
-## Update Product
+## Update Payment
 
-Endpoint: PUT `/api/products/{id}`
+Endpoint: PATCH `/api/payment/{id}`
 
 Request Header:
 
@@ -150,10 +142,7 @@ Request Body:
 
 ```json
 {
-  "name": "product name",
-  "description": "product description",
-  "price": 10000,
-  "stock": 100
+  "status": ENUM("pending", "completed", "failed")
 }
 ```
 
@@ -165,12 +154,12 @@ Response Body(Success):
   "errors": false,
   "data": {
     "id": "UUID",
-    "name": "new product name",
-    "description": "new product description",
-    "price": 10000,
-    "stock": 100
+    "amount": 1000000,
+    "status": ENUM("pending", "completed", "failed"),
+    "created_at": "DD-MM-YYYY, hh:mm:ss",
+    "updated_at": "DD-MM-YYYY, hh:mm:ss"
   },
-  "message": "Products updated successfully"
+  "message": "Payment updated successfully"
 }
 ```
 
@@ -181,7 +170,7 @@ Response Body(Failed):
   "status": 400,
   "errors": true,
   "data": null,
-  "message": "Product name must not blank, Description must not blank, Price must not blank, Stock must not blank",
+  "message": "Payment status must not empty",
 }
 ```
 
@@ -192,7 +181,7 @@ Response Body(Failed, 404):
   "status": 404,
   "errors": true,
   "data": null,
-  "message": "Product not found"
+  "message": "Payment not found"
 }
 ```
 
@@ -207,9 +196,9 @@ Response Body(Failed, 401):
 }
 ```
 
-## Delete Product
+## Delete Payment
 
-Endpoint: DELETE `/api/products/{id}`
+Endpoint: DELETE `/api/payment/{id}`
 
 Request Header:
 - Authorization: `Bearer TOKEN (MANDATORY)`
@@ -221,7 +210,7 @@ Response Body(Success):
   "status": 200,
   "errors": false,
   "data": null,
-  "message": "Product deleted successfully"
+  "message": "Payment deleted successfully"
 }
 ```
 
@@ -243,6 +232,6 @@ Response Body(Failed, 404):
   "status": 404,
   "errors": true,
   "data": null,
-  "message": "Product not found"
+  "message": "Payment not found"
 }
 ```

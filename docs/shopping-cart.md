@@ -1,8 +1,8 @@
-# Products API Specs
+# Shopping Cart API Specs
 
-## Create Products
+## Create Shopping Cart (Add product to shopping cart)
 
-Endpoint: POST `/api/products`
+Endpoint: POST `/api/shopping-cart`
 
 Request Header:
 
@@ -12,10 +12,8 @@ Request Body:
 
 ```json
 {
-  "name": "product name",
-  "description": "product description",
-  "price": 10000,
-  "stock": 100
+  "quantity": 5,
+  "product_id": "UUID"
 }
 ```
 
@@ -27,12 +25,10 @@ Response Body(Success):
   "errors": false,
   "data": {
     "id": "UUID",
-    "name": "product name",
-    "description": "product description",
-    "price": 10000,
-    "stock": 100
+    "quantity": 5,
+    "product_id": "UUID"
   },
-  "message": "Products added successfully"
+  "message": "Shopping Cart added successfully"
 }
 ```
 
@@ -43,13 +39,13 @@ Response Body(Failed):
   "status": 400,
   "errors": true,
   "data": null,
-  "message": "Product name must not blank, Description must not blank, Price must not blank, Stock must not blank",
+  "message": "Quantity must not empty, Product must not empty"
 }
 ```
 
-## Get Products
+## Get Shopping Carts
 
-Endpoint: GET `/api/pruducts`
+Endpoint: GET `/api/shopping-cart`
 
 Request Header:
 - Authorization: `Bearer TOKEN (MANDATORY)`
@@ -63,20 +59,16 @@ Response Body(Success):
   "data": [
     {
       "id": "UUID",
-      "name": "product name",
-      "description": "product description",
-      "price": 10000,
-      "stock": 100
+      "quantity": 5,
+      "product_id": "UUID"
     },
     {
       "id": "UUID",
-      "name": "product name",
-      "description": "product description",
-      "price": 10000,
-      "stock": 100
+      "quantity": 5,
+      "product_id": "UUID"
     }
   ],
-  "message": "Products data retrieved successfully"
+  "message": "Shopping Cart data retrieved successfully"
 }
 ```
 
@@ -91,9 +83,9 @@ Response Body(Failed):
 }
 ```
 
-## Get Product
+## Get Shoping Cart
 
-Endpoint: POST `/api/products/{id}`
+Endpoint: POST `/api/shopping-cart/{id}`
 
 Request Header:
 
@@ -107,10 +99,8 @@ Response Body(Success):
   "errors": false,
   "data": {
     "id": "UUID",
-    "name": "product name",
-    "description": "product description",
-    "price": 10000,
-    "stock": 100
+    "quantity": 5,
+    "product_id": "UUID"
   },
   "message": "Login success"
 }
@@ -134,13 +124,13 @@ Response Body(Failed, 404):
   "status": 404,
   "errors": true,
   "data": null,
-  "message": "Product not found"
+  "message": "Shopping Cart not found"
 }
 ```
 
 ## Update Product
 
-Endpoint: PUT `/api/products/{id}`
+Endpoint: PATCH `/api/shopping-cart/{id}`
 
 Request Header:
 
@@ -150,10 +140,7 @@ Request Body:
 
 ```json
 {
-  "name": "product name",
-  "description": "product description",
-  "price": 10000,
-  "stock": 100
+  "quantity": 5
 }
 ```
 
@@ -165,12 +152,10 @@ Response Body(Success):
   "errors": false,
   "data": {
     "id": "UUID",
-    "name": "new product name",
-    "description": "new product description",
-    "price": 10000,
-    "stock": 100
+    "quantity": 3,
+    "product_id": "UUID"
   },
-  "message": "Products updated successfully"
+  "message": "Shopping Cart updated successfully"
 }
 ```
 
@@ -181,7 +166,7 @@ Response Body(Failed):
   "status": 400,
   "errors": true,
   "data": null,
-  "message": "Product name must not blank, Description must not blank, Price must not blank, Stock must not blank",
+  "message": "Quantity must not empty"
 }
 ```
 
@@ -192,7 +177,7 @@ Response Body(Failed, 404):
   "status": 404,
   "errors": true,
   "data": null,
-  "message": "Product not found"
+  "message": "Shopping Cart not found"
 }
 ```
 
@@ -209,7 +194,7 @@ Response Body(Failed, 401):
 
 ## Delete Product
 
-Endpoint: DELETE `/api/products/{id}`
+Endpoint: DELETE `/api/shopping-cart/{id}`
 
 Request Header:
 - Authorization: `Bearer TOKEN (MANDATORY)`
@@ -221,7 +206,7 @@ Response Body(Success):
   "status": 200,
   "errors": false,
   "data": null,
-  "message": "Product deleted successfully"
+  "message": "Shopping Cart deleted successfully"
 }
 ```
 
@@ -243,6 +228,6 @@ Response Body(Failed, 404):
   "status": 404,
   "errors": true,
   "data": null,
-  "message": "Product not found"
+  "message": "Shopping Cart not found"
 }
 ```

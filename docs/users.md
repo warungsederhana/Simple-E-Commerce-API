@@ -2,7 +2,7 @@
 
 ## Register User
 
-Endpoint: POST `/api/users`
+Endpoint: POST `/api/user`
 
 Request Body:
 
@@ -41,7 +41,7 @@ Response Body(Failed):
 Endpoint: GET `/api/users/current`
 
 Request Header:
-- X-API-TOKEN: `TOKEN (MANDATORY)`
+- Authorization: `Bearer TOKEN (MANDATORY)`
 
 Response Body(Success):
 
@@ -50,10 +50,11 @@ Response Body(Success):
   "status": 200,
   "errors": false,
   "data": {
+    "id": "UUID",
     "name": "John Doe",
     "email": "yourname@example.com"
   },
-  "message": "User data retrieved successfully
+  "message": "User data retrieved successfully"
 }
 ```
 
