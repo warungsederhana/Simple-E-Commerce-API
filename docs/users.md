@@ -2,7 +2,7 @@
 
 ## Register User
 
-Endpoint: POST `/api/user`
+Endpoint: POST `/api/user/register`
 
 Request Body:
 

@@ -45,26 +45,23 @@ public class UserService implements UserServiceI{
     return toUserResponse(user);
   }
 
-  private UserResponse toUserResponse(User user) {
-    return UserResponse.builder()
-        .id(user.getId())
-        .email(user.getEmail())
-        .name(user.getName())
-        .build();
-  }
-
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    User user = userRepository.findByEmail(email);
-
-    if (user == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found with email: " + email);
-    }
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found with email: " + email));
 
     return new org.springframework.security.core.userdetails.User(
         user.getEmail(),
         user.getPassword(),
         Collections.emptyList()
     );
+  }
+
+  private UserResponse toUserResponse(User user) {
+    return UserResponse.builder()
+        .id(user.getId())
+        .email(user.getEmail())
+        .name(user.getName())
+        .build();
   }
 }
