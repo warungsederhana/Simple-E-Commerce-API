@@ -1,8 +1,9 @@
 package project.ecommerce.api.service.user;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,10 +13,10 @@ import project.ecommerce.api.model.user.UserResponse;
 import project.ecommerce.api.repository.UserRepository;
 import project.ecommerce.api.service.ValidationService;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
-@Slf4j
 public class UserService implements UserServiceI{
 
   @Autowired
@@ -37,9 +38,7 @@ public class UserService implements UserServiceI{
     user.setEmail(request.getEmail());
     user.setPassword(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()));
     user.setName(request.getName());
-//    user.setRole(User.Role.user);
-
-//    log.info("user role: {}", user.getRole());
+    user.setRole(User.Role.user);
 
     userRepository.save(user);
 
@@ -52,5 +51,20 @@ public class UserService implements UserServiceI{
         .email(user.getEmail())
         .name(user.getName())
         .build();
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    User user = userRepository.findByEmail(email);
+
+    if (user == null) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found with email: " + email);
+    }
+
+    return new org.springframework.security.core.userdetails.User(
+        user.getEmail(),
+        user.getPassword(),
+        Collections.emptyList()
+    );
   }
 }

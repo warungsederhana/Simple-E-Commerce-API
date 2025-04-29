@@ -6,5 +6,7 @@ import project.ecommerce.api.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-  Boolean existsByEmail(String email);
+  User findByEmail(String email);
+
+  boolean existsByEmail(String email);
 }

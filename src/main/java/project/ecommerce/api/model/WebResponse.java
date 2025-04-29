@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @Builder
 public class WebResponse <T>{
-  private HttpStatus status;
+  private Integer status;
 
   private boolean error;
 

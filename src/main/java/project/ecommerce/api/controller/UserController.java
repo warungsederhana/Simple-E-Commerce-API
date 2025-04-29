@@ -29,7 +29,7 @@ public class UserController {
 
   private WebResponse<UserResponse> toWebResponse(UserResponse data, String message) {
     return WebResponse.<UserResponse>builder()
-        .status(HttpStatus.OK)
+        .status(HttpStatus.OK.value())
         .error(false)
         .message(message)
         .data(data)
