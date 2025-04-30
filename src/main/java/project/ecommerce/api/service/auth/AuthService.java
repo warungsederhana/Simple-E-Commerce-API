@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import project.ecommerce.api.entity.User;
 import project.ecommerce.api.model.WebResponse;
@@ -43,6 +44,7 @@ public class AuthService implements AuthServiceI {
   ValidationService validationService;
 
   @Override
+  @Transactional
   public UserResponse register(RegisterUserRequest request) {
     validationService.validate(request);
 
@@ -69,9 +71,6 @@ public class AuthService implements AuthServiceI {
     User user = userRepository.findByEmail(request.getEmail())
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
 
-    log.info(user.getEmail());
-    log.info(user.getPassword());
-
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
@@ -83,7 +82,7 @@ public class AuthService implements AuthServiceI {
     if (userDetails == null) {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
     }
-    String token = jwtUtil.generateToken(userDetails.getUsername());
+    String token = jwtUtil.generateToken(user);
     Long expiredAt = jwtUtil.getExpiredAt(token);
 
     log.info("token: {} : expiredAt: {}", token, expiredAt);

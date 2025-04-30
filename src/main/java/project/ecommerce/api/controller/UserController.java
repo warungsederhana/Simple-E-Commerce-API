@@ -17,12 +17,17 @@ public class UserController {
   private UserServiceI userService;
 
   @GetMapping(
-      path = "",
+      path = "/current",
       produces = MediaType.APPLICATION_JSON_VALUE
   )
-  public WebResponse<String> getUser() {
-    return WebResponse.<String>builder()
-        .message("success")
+  public WebResponse<UserResponse> getUser() {
+    UserResponse response = userService.getUser();
+
+    return WebResponse.<UserResponse>builder()
+        .status(HttpStatus.OK.value())
+        .error(false)
+        .data(response)
+        .message( "User data retrieved successfully")
         .build();
   }
 

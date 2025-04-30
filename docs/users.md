@@ -38,7 +38,7 @@ Response Body(Failed):
 
 ## Get User
 
-Endpoint: GET `/api/users/current`
+Endpoint: GET `/api/user/current`
 
 Request Header:
 - Authorization: `Bearer TOKEN (MANDATORY)`

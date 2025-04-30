@@ -2,7 +2,7 @@
 
 ## Create Products
 
-Endpoint: POST `/api/products`
+Endpoint: POST `/api/product`
 
 Request Header:
 

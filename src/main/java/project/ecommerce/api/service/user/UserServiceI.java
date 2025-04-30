@@ -7,5 +7,5 @@ import project.ecommerce.api.model.user.UserResponse;
 
 public interface UserServiceI extends UserDetailsService {
 
-  public UserResponse register(RegisterUserRequest request);
+  public UserResponse getUser();
 }

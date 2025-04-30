@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import project.ecommerce.api.entity.User;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -30,12 +31,14 @@ public class JwtUtil {
     this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
   }
 
-  public String generateToken(String email) {
+  public String generateToken(User user) {
     Instant now = Instant.now();
     Instant expirationDate = now.plus(Long.parseLong(jwtExpirationTime), ChronoUnit.MILLIS);
 
     return Jwts.builder()
-        .subject(email)
+        .subject(user.getEmail())
+        .claim("id", user.getId())
+        .claim("name", user.getName())
         .issuedAt(Date.from(now))
         .expiration(Date.from(expirationDate))
         .signWith(key)
@@ -46,6 +49,12 @@ public class JwtUtil {
     return Jwts.parser()
         .verifyWith(key).build()
         .parseSignedClaims(token).getPayload().getSubject();
+  }
+
+  public Claims getAllClaims(String token) {
+    return Jwts.parser()
+        .verifyWith(key).build()
+        .parseSignedClaims(token).getPayload();
   }
 
   public Long getExpiredAt(String token) {
