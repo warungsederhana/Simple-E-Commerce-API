@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
@@ -14,10 +15,13 @@ import java.time.Instant;
 @NoArgsConstructor
 @Entity
 @Table(name = "shopping_carts")
+@EntityListeners(AuditingEntityListener.class)
 public class ShoppingCart {
 
   @Id
   private String id;
+
+  private Integer quantity;
 
   @CreatedDate
   @Column(name = "created_at")

@@ -3,6 +3,7 @@ package project.ecommerce.api.util;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -61,6 +62,18 @@ public class JwtUtil {
     return Jwts.parser()
         .verifyWith(key).build()
         .parseSignedClaims(token).getPayload().getExpiration().getTime();
+  }
+
+  public String getIdFromRequest(HttpServletRequest request) {
+    String headerAuth = request.getHeader("Authorization");
+    if (headerAuth == null && !headerAuth.startsWith("Bearer ")) {
+      return null;
+    }
+    String token = headerAuth.substring(7);
+
+    return Jwts.parser()
+        .verifyWith(key).build()
+        .parseSignedClaims(token).getPayload().get("id", String.class);
   }
 
   public boolean validateJwtToken(String token) {
